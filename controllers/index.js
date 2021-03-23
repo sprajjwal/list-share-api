@@ -1,12 +1,15 @@
 const router = require('express').Router();
 const list = require('./list');
+const view = require('./view');
 
-router.get('/', list.getIndex);
-router.get('/list/:link', list.getList);
-router.get('/new', list.getNewList)
+router.get('/', view.index);
+router.get('/new', view.newList);
+router.get('/list/:link', view.showList);
 
-router.post('/new', list.postNewList);
-router.post('/list/:link/add', list.postAddItem);
-router.post('/list/:link/item', list.postMarkPurchased);
+router.get('/api/list/:link', list.getList);
+
+router.post('/api/new', list.postNewList);
+router.post('/api/list/:link/add', list.postAddItem);
+router.post('/api/list/:link/item', list.postMarkPurchased);
 
 module.exports = router

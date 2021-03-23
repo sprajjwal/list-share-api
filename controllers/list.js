@@ -1,32 +1,46 @@
-const { reset } = require("nodemon");
 const List = require("../models/list");
 const getLink = require("../utils/getLink");
 
 const LINK_SIZE = 6;
 
 module.exports = {
-    getIndex: (req, res) => {
-        return res.render('index')
-    },
     getList: (req, res) => {
         const link = req.params.link;
+        console.log(link)
         List.findOne({ link })
-            .then(list => res.send(list))
+            .then(list => {
+                if (list === null) {
+                    return res.send({
+                        isSuccess: false,
+                        error: `List ${link} not found`,
+                        list
+                    })
+                } else {
+                    res.send({
+                        isSuccess: true,
+                        list
+                    })
+                }
+            })
             .catch(e => {
                 console.log(e)
-                return res.send({error: `List ${link} not found`})
+                return res.send({
+                    isSuccess: false,
+                    error: `List ${link} not found`
+                })
         })
     },
-
-    getNewList: (req, res) => {},
 
     postNewList: async (req, res) => {
         const l = new List(req.body);
         l.link = await getLink(LINK_SIZE);
         l.save()
             .then(_ => {
-                return res.send(l);
+                return res.send({isSuccess: true});
             })
+        .catch(_ => res.send({
+            isSuccess: false
+        }))
     },
 
     postAddItem: (req, res) => {

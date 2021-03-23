@@ -5,7 +5,7 @@ $(document).ready(function() {
     e.preventDefault();
 
     const link = e.target.querySelector("input").value;
-    e.target.action = `/link/${link}`;
+    e.target.action = `/list/${link}`;
     e.target.submit();
   })
 })
