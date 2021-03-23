@@ -2,11 +2,14 @@
     {{#if name}}
         <div class="container container-fluid p-0 mb-3 d-flex justify-content-between">
             <p class="h3" id="list-name" style="font-weight: 300;">List: {{name}}</p>
-            <button id="share" data-link={{link}} class="btn btn-sm btn-info">Share!</button>
+            <div>
+                <button class="btn btn-dark btn-sm" id="delete-list" data-link="{{link}}" data-name="{{this.name}}" style="height: 3em;;">Delete List</button>
+                <button type="button" id="share" data-link={{link}} class="btn btn-sm btn-info ml-2" data-container="body" data-toggle="popover" data-placement="top" data-content="Link Copied!" >Share!</button>
+            </div>
         </div>
         <form class="form-inline mb-3" id="add-item" data-link="{{link}}" data-action="/api/list/{{link}}/add">
-            <input class="form-control w-75" type="text" name="name" placeholder="Item">
-            <input class="form-control w-25" type="number" name="amount" placeholder="Qty"> 
+            <input class="form-control w-75" type="text" name="name" placeholder="Item" required>
+            <input class="form-control w-25" type="number" name="amount" placeholder="Qty" required> 
             <button class="btn btn-success mt-2 mb-2" type="submit">Add item</button>
         </form>
 
@@ -24,6 +27,7 @@
                         {{else}}
                         <button class="btn btn-sm btn-success mark" name="yes" type="button" data-link="{{../link}}" data-name="{{this.name}}">Yes</button>
                         {{/if}}
+                        <button class="btn btn-dark btn-sm ml-2" id="delete-item" data-link="{{../link}}" data-name="{{this.name}}">Delete</button>
                     </div>
                 </li>
             {{/each}}

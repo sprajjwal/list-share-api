@@ -1,6 +1,7 @@
 const linkShareForms = document.getElementsByClassName("link-search");
 
 $(document).ready(function() {
+  $("[data-toggle=popover]").popover();
   $(".link-search").submit(e => {
     e.preventDefault();
 
@@ -67,5 +68,51 @@ $(document).ready(function() {
     $temp.val(url).select();
     document.execCommand("copy");
     $temp.remove();
+  })
+
+  $("#delete-list").click(function(e) {
+    const link = e.target.dataset.link;
+    // const dataName = e.target.dataset.name;
+    const url = `${window.location.origin}/list/${link}/delete`;
+
+    const data = {
+      link: link,
+    }
+    console.log(data)
+    $.ajax({
+      type: "POST",
+      url: url,
+      data: JSON.stringify(data),
+      contentType: "application/json; charset=utf-8",
+      success: function(data) {
+        window.location.href = "/"
+      },
+      error: function(err) {
+        alert(`failed to delete list ${dataName}`)
+      }
+    })
+  })
+
+  $("#delete-item").click(function(e) {
+    const link = e.target.dataset.link;
+    const dataName = e.target.dataset.name;
+    const url = `${window.location.origin}/list/${link}/item/delete`;
+    const data = {
+      link: link,
+      name: dataName
+    }
+
+    $.ajax({
+      type: "POST",
+      url: url,
+      data: JSON.stringify(data),
+      contentType: "application/json; charset=utf-8",
+      success: function(data) {
+        location.reload();
+      },
+      error: function(err) {
+        alert(`failed to delete list ${name}`)
+      }
+    })
   })
 })

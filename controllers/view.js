@@ -12,11 +12,19 @@ module.exports = {
         const link = req.params.link;
         List.findOne({ link }).lean()
             .then(list => {
-                let ctx = {
-                    message: `List ${link} wasn't found`,
-                    name: list.name,
-                    list: list.items,
-                    link: link
+                let ctx = {};
+                if (list === null) {
+                    ctx = {
+                        message: `List ${link} wasn't found`,
+                        name: null,
+                        link: link
+                    }
+                } else {
+                    ctx = {
+                        name: list.name,
+                        list: list.items,
+                        link: link
+                    }
                 }
                 res.render('show-list', ctx)
             })
@@ -31,5 +39,23 @@ module.exports = {
                 return res.redirect(`/list/${l.link}`);
             })
         .catch(_ => res.redirect('/'))
+    },
+
+    postDelete: (req, res) => {
+        List.findOneAndDelete({link: req.body.link})
+            .then(_ => res.redirect('/'))
+            .catch(err => res.send(err))
+    },
+
+    postDeleteItem: (req, res) => {
+        const link = req.body.link;
+        List.findOne({link})
+            .then(list => {
+                list.items = list.items.filter(item => item.name !== req.body.name)
+                list.markModified("items")
+                list.save()
+                    .then(_ => res.redirect(`/list/${link}`))
+            })
+            .catch(err => res.send(err))
     }
 }
