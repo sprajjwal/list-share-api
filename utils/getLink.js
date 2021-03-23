@@ -3,14 +3,17 @@ const {nanoid} = require('nanoid')
 const List = require("../models/list");
 
 
-const getLink = async () => {
+const getLink = async (size) => {
     while (true) {
-        const link = nanoid(7);
+        const link = nanoid(size);
         try {
-            await List.findOne( { link }).exec();
+            const item = await List.findOne( { link }).exec();
+            if (item === null) {
+                return link;
+            }
         }
         catch(error) { //brendawazhere
-            return link
+            console.log(error);
         }
     }
 }

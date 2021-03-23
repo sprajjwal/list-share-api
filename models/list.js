@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const ListSchema = new mongoose.Schema({
-    code: {
+    link: {
         type: String,
         required: true,
     },
@@ -11,12 +11,14 @@ const ListSchema = new mongoose.Schema({
     },
     items: [{
         name: {
-            type: String,
-            required: true,
+            type: String
+        },
+        amount: {
+            type: Number
         },
         isPurchased: {
             type:Boolean,
-            default: false,
+            default: false
         }
     }],
     createdAt: {

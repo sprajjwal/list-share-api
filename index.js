@@ -1,8 +1,10 @@
-const app = require('express')();
+const express = require('express');
+const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 require('dotenv').config();
+const exphbs = require('express-handlebars')
 
 app.use(cors());
 app.use(morgan('dev'));
@@ -15,10 +17,12 @@ app.use(bodyParser.urlencoded({
   limit: '25mb'
 }));
 
+// Handlebars
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
+app.set('view engine', 'handlebars');
+
 require('./db/index');
-
-const List = require('./models/list');
-
+app.use(express.static("public")); 
 
 // router
 const indexRouter = require('./controllers/index');
