@@ -1,0 +1,21 @@
+.navbar {
+  background-color: rgb(61, 181, 218);
+}
+
+.navbar > a {
+  font-family: 'Lobster', cursive;
+  font-size: 2em;
+  font-weight: 300;
+}
+
+.jumbotron {
+  padding: 1em;
+  margin-top: 3em;
+}
+
+#list-name {
+  font-family: 'Lobster', cursive;
+  font-size: 2em;
+  font-weight: 200;
+  color: rgb(216, 59, 169);
+}

@@ -1,3 +1,34 @@
 <div class="jumbotron jumbotron-fluid">
-    abcd
+    {{#if name}}
+        <div class="container container-fluid p-0 mb-3 d-flex justify-content-between">
+            <p class="h3" id="list-name" style="font-weight: 300;">List: {{name}}</p>
+            <button id="share" data-link={{link}} class="btn btn-sm btn-info">Share!</button>
+        </div>
+        <form class="form-inline mb-3" id="add-item" data-link="{{link}}" data-action="/api/list/{{link}}/add">
+            <input class="form-control w-75" type="text" name="name" placeholder="Item">
+            <input class="form-control w-25" type="number" name="amount" placeholder="Qty"> 
+            <button class="btn btn-success mt-2 mb-2" type="submit">Add item</button>
+        </form>
+
+        <ul class="list-group">
+            {{#each list}}
+                <li class="list-group-item p-1">
+                    <div class="d-flex justify-content-between">
+                        <p class="m-0 lead" style="font-weight: 400; font-size: 1.5em;">{{#if this.isPurchased}}<s>{{/if}}{{this.name}}{{#if this.isPurchased}}</s>{{/if}}</p>
+                        <p class="m-0 mr-4" style="font-weight: 400; font-size: 1.5em;">{{this.amount}}</p>
+                    </div>
+                    <div class="d-flex justify-content-left align-items-center">
+                        <p class="m-0 mr-2" style="font-weight: 400; font-size: 1.2em;">Mark Purchased?</p>
+                        {{#if this.isPurchased}}
+                        <button class="btn btn-sm btn-danger mark" name="no" type="button" data-link="{{../link}}" data-name="{{this.name}}"> No{{link}} </button>
+                        {{else}}
+                        <button class="btn btn-sm btn-success mark" name="yes" type="button" data-link="{{../link}}" data-name="{{this.name}}">Yes</button>
+                        {{/if}}
+                    </div>
+                </li>
+            {{/each}}
+        </ul>
+    {{else}}
+        <h2 class="text-danger">{{message}}</h2>
+    {{/if}}
 </div>

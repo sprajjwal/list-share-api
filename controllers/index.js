@@ -8,6 +8,8 @@ router.get('/list/:link', view.showList);
 
 router.get('/api/list/:link', list.getList);
 
+router.post('/new', view.postNewList);
+
 router.post('/api/new', list.postNewList);
 router.post('/api/list/:link/add', list.postAddItem);
 router.post('/api/list/:link/item', list.postMarkPurchased);
